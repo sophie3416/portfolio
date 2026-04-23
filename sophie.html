@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MinZ — Brand & Graphic Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <style>
+    /* ─── DESIGN TOKENS ─── */
+    :root {
+      --bg: #ffffff;
+      --surface: #ffffff;
+      --text: #111111;
+      --text-muted: #666666;
+      --border: #e5e5e5;
+      --accent: #111111;
+      --accent-hover: #000000;
+      --dark: #0d0d0d;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --max: 1120px;
+      --max-lg: 1320px;
+      --nav-h: 72px;
+      --bp-desktop: 1024px;
+      --hero-top-offset: 88px;
+      --mobile-header-row-h: 56px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Urbanist", "Pretendard", system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--text);
+      background: var(--bg);
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; height: auto; display: block; }
+    .container {
+      width: min(100% - 40px, var(--max));
+      margin-inline: auto;
+    }
+    @media (min-width: 1024px) {
+      .container { width: min(100% - 80px, var(--max-lg)); }
+    }
+
+    /* ─── HEADER / NAV (원본 유지) ─── */
+    .site-header {
+      position: fixed;
+      left: 0; right: 0; top: 0;
+      z-index: 450;
+      background: transparent;
+      border: none;
+      pointer-events: none;
+    }
+    body.nav-open .site-header { z-index: 600; }
+    @media (max-width: 1023px) {
+      .site-header { box-shadow: none; filter: none; }
+    }
+    @media (min-width: 1024px) {
+      .site-header:not(.is-scrolled) { padding-top: 12px; }
+    }
+    .site-header * { pointer-events: auto; }
+    .header-shell {
+      width: 100%; max-width: none;
+      margin: 0 auto;
+      padding: 0 clamp(12px, 3vw, 28px);
+      transition:
+        max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        margin 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+        padding 0.4s ease,
+        background 0.4s ease,
+        border-radius 0.45s ease,
+        box-shadow 0.45s ease,
+        border-color 0.35s ease;
+    }
+    @media (min-width: 1024px) {
+      .header-shell {
+        display: block;
+        transition:
+          max-width 0.65s cubic-bezier(0.22, 1, 0.32, 1),
+          margin 0.65s cubic-bezier(0.22, 1, 0.32, 1),
+          padding 0.55s cubic-bezier(0.22, 1, 0.32, 1),
+          background 0.5s ease,
+          border-radius 0.6s cubic-bezier(0.22, 1, 0.32, 1),
+          box-shadow 0.5s ease,
+          border-color 0.45s ease,
+          backdrop-filter 0.5s ease,
+          -webkit-backdrop-filter 0.5s ease;
+      }
+      .header-inner {
+        transition:
+          min-height 0.55s cubic-bezier(0.22, 1, 0.32, 1),
+          column-gap 0.45s cubic-bezier(0.22, 1, 0.32, 1),
+          padding 0.45s ease;
+      }
+      .logo--brand {
+        transition:
+          margin 0.5s cubic-bezier(0.22, 1, 0.32, 1),
+          text-shadow 0.45s ease,
+          transform 0.5s cubic-bezier(0.22, 1, 0.32, 1);
+      }
+      .nav-cluster--left,
+      .nav-cluster--right {
+        transition: gap 0.4s ease, padding 0.45s ease;
+      }
+    }
+    @media (min-width: 1024px) {
+      .site-header.is-scrolled .header-shell {
+        max-width: min(1120px, 94vw);
+        margin: 10px auto 0;
+        padding: 10px clamp(22px, 2.8vw, 32px);
+        background: rgba(12, 12, 12, 0.62);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28);
+      }
+    }
+    @media (max-width: 1023px) {
+      .header-shell {
+        display: block;
+        width: 100%; height: var(--mobile-header-row-h);
+        max-width: none; margin: 0; padding: 0;
+        border-radius: 0; background: transparent;
+        border: none; box-shadow: none; filter: none;
+        transition: none;
+      }
+      .nav-cluster--right {
+        padding-left: 0;
+        flex: 0 0 auto;
+        justify-self: end;
+      }
+    }
+    .header-inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-height: 64px;
+      max-width: var(--max-lg);
+      margin: 0 auto;
+      gap: 8px;
+    }
+    @media (min-width: 1024px) {
+      .header-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        align-items: center;
+        column-gap: clamp(12px, 1.5vw, 24px);
+        min-height: 72px;
+        justify-content: unset;
+      }
+      .site-header.is-scrolled .header-inner {
+        min-height: 54px;
+        column-gap: clamp(10px, 1.2vw, 20px);
+      }
+    }
+    @media (max-width: 1023px) {
+      .header-inner {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        column-gap: 14px;
+        height: var(--mobile-header-row-h);
+        min-height: var(--mobile-header-row-h);
+        max-height: var(--mobile-header-row-h);
+        padding: 0 clamp(16px, 4vw, 20px);
+        width: 100%; max-width: none; margin: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+    }
+    .nav-cluster {
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2px 4px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .nav-cluster--left {
+      display: none;
+      flex: 1 1 auto;
+      justify-content: flex-start;
+      padding-right: min(120px, 14vw);
+    }
+    .nav-cluster--right {
+      display: flex;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      align-items: center;
+      padding-left: min(100px, 18vw);
+      gap: 8px;
+    }
+    @media (min-width: 1024px) {
+      .nav-cluster--left, .nav-cluster--right { min-width: 0; }
+      .nav-cluster--left {
+        display: flex;
+        justify-self: start;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        padding-right: 0;
+        gap: 4px clamp(10px, 1.2vw, 22px);
+      }
+      .nav-cluster--right {
+        justify-self: end;
+        justify-content: flex-end;
+        padding-left: 0;
+        gap: 12px;
+      }
+    }
+    .logo--brand {
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+      color: #fff;
+      text-shadow: 0 1px 24px rgba(0, 0, 0, 0.35);
+    }
+    @media (min-width: 1024px) {
+      .logo--brand {
+        position: relative;
+        left: auto; top: auto;
+        transform: none;
+        grid-column: 2;
+        justify-self: center;
+        align-self: center;
+        text-align: center;
+        font-size: 1.22rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        text-shadow: 0 1px 20px rgba(0, 0, 0, 0.3);
+      }
+    }
+    @media (max-width: 1023px) {
+      .logo--brand {
+        position: static;
+        transform: none;
+        justify-self: start;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+        font-size: 1.2rem;
+        letter-spacing: -0.02em;
+      }
+    }
+    @media (min-width: 1024px) {
+      .site-header.is-scrolled .logo--brand {
+        text-shadow: none;
+        font-size: 1.18rem;
+      }
+    }
+    .nav-cluster > a.nav-link-flat {
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
+    .site-header.is-scrolled .nav-link-flat { color: rgba(255, 255, 255, 0.88); }
+    .nav-link-flat { color: rgba(255, 255, 255, 0.88); }
+    .nav-link-flat:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+    .btn--header-cta { font-size: 14px; padding: 9px 18px; }
+    .site-header:not(.is-scrolled) .btn--header-cta { background: #fff; color: #111; }
+    .site-header:not(.is-scrolled) .btn--header-cta:hover { background: #ececec; }
+    .site-header.is-scrolled .btn--header-cta { background: #fff; color: #111; }
+    .site-header.is-scrolled .btn--header-cta:hover { background: #e2e2e2; }
+    .nav-burger {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      width: 44px; height: 44px;
+      padding: 0; border: none;
+      border-radius: 10px;
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      color: #fff;
+    }
+    .nav-burger__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 3px);
+      grid-template-rows: repeat(3, 3px);
+      gap: 3px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .nav-burger__grid span {
+      display: block;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    body.nav-open .nav-burger__grid { opacity: 0; transform: scale(0.4); }
+    .nav-burger::after {
+      content: "×";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 1.65rem;
+      font-weight: 300;
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
+    }
+    body.nav-open .nav-burger::after { opacity: 1; transform: scale(1); }
+    @media (max-width: 1023px) {
+      .nav-cluster--right .btn--header-cta { display: none !important; }
+    }
+    @media (min-width: 1024px) { .nav-burger { display: none; } }
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 480;
+      padding: var(--mobile-header-row-h) 24px 32px;
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(12px);
+      overflow: auto;
+    }
+    body.nav-open .mobile-drawer { display: block; }
+    .mobile-drawer a {
+      display: block;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-weight: 500;
+    }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-ghost { background: transparent; color: var(--text); }
+    .btn-ghost:hover { background: rgba(0,0,0,0.06); }
+    .btn-primary { background: var(--text); color: #fff; }
+    .btn-primary:hover { background: #333; }
+    .btn-accent { background: var(--accent); color: #fff; }
+    .btn-accent:hover { background: var(--accent-hover); }
+
+    /* ─── HERO ─── */
+    /* 모바일/데스크톱 공통: 배경 위에 텍스트 오버레이 */
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(100svh, auto);
+      min-height: 100svh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    .hero-backplate {
+      grid-column: 1; grid-row: 1;
+      position: relative;
+      overflow: hidden;
+      width: 100%; height: 100%;
+      min-height: 100svh;
+      align-self: stretch;
+      border-radius: 0;
+    }
+    .hero-visual {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+    }
+    /* 모바일: 중앙에서 아래로 내려오는 그라디언트 */
+    .hero-gradient {
+      display: block;
+      position: absolute;
+      inset: 0; z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.35) 0%,
+        rgba(0, 0, 0, 0.15) 40%,
+        rgba(0, 0, 0, 0.55) 80%,
+        rgba(0, 0, 0, 0.75) 100%
+      );
+    }
+    .hero-foreground {
+      grid-column: 1; grid-row: 1;
+      z-index: 2;
+      position: relative;
+      align-self: end;              /* 모바일: 하단 정렬 */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 20px 48px;
+      color: #f4f4f2;
+    }
+
+    /* 모바일/공통 텍스트 색상 */
+    .hero h1 { color: #fff; text-shadow: 0 2px 32px rgba(0, 0, 0, 0.4); }
+    .hero-lead { color: rgba(255, 255, 255, 0.75); }
+    .hero-kicker { color: rgba(255, 255, 255, 0.5); }
+    .hero .trust-card {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .hero .trust-card strong { color: #fff; }
+    .hero .trust-card span { color: rgba(255, 255, 255, 0.65); }
+
+    /* 데스크톱: 좌측 정렬 + 세로 중앙 + 라운드 */
+    @media (min-width: 1024px) {
+      .hero {
+        grid-template-rows: minmax(520px, calc(100svh - var(--hero-top-offset)));
+        min-height: calc(100svh - var(--hero-top-offset));
+        padding: 20px 28px 0;
+      }
+      .hero-backplate {
+        border-radius: 24px;
+        min-height: unset;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);
+      }
+      .hero-gradient {
+        border-radius: inherit;
+        background: linear-gradient(
+          90deg,
+          rgba(8, 8, 8, 0.92) 0%,
+          rgba(8, 8, 8, 0.65) 36%,
+          rgba(8, 8, 8, 0.3) 55%,
+          rgba(8, 8, 8, 0.08) 72%,
+          transparent 100%
+        );
+      }
+      .hero-foreground {
+        align-self: stretch;
+        justify-content: center;
+        width: min(100% - 80px, var(--max-lg));
+        margin-inline: auto;
+        padding: clamp(32px, 5vh, 64px) 0;
+      }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin: 0 0 16px;
+    }
+    @media (min-width: 1024px) {
+      .hero h1 {
+        font-size: clamp(3.5rem, 5.5vw, 5rem);
+        margin-bottom: 24px;
+        max-width: 16ch;
+      }
+    }
+    .hero h1 .line-break { display: block; }
+    .hero-lead {
+      font-size: 1rem;
+      max-width: 34ch;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    @media (min-width: 1024px) {
+      .hero-lead { font-size: clamp(1.1rem, 1.3vw, 1.25rem); max-width: 38ch; }
+    }
+    .hero-kicker {
+      margin: 0 0 16px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    @media (min-width: 1024px) {
+      .hero-kicker { margin-bottom: 20px; }
+    }
+
+    /* trust row */
+    .trust-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+      margin-top: 0;
+    }
+    @media (min-width: 1024px) {
+      .trust-row {
+        grid-template-columns: repeat(3, minmax(0, 180px));
+        gap: 10px;
+        justify-content: flex-start;
+      }
+      .trust-card { padding: 14px 16px; }
+    }
+    .trust-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+    }
+    .trust-card strong { display: block; font-size: 14px; margin-bottom: 3px; }
+    .trust-card span { font-size: 12px; color: var(--text-muted); }
+
+    /* ─── SECTION GLOBALS ─── */
+    .section { padding: 72px 0; position: relative; z-index: 1; background: #fff; }
+    @media (min-width: 1024px) { .section { padding: 96px 0; } }
+    .section--tight { padding-bottom: 48px; }
+    @media (min-width: 1024px) { .section--tight { padding-bottom: 64px; } }
+    .section-alt { background: #fff; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 16px;
+      line-height: 1.15;
+    }
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 52ch;
+      margin: 0;
+      line-height: 1.65;
+    }
+    .text-center { text-align: center; }
+    .mb-0 { margin-bottom: 0 !important; }
+
+    /* ─── ABOUT ─── */
+    .about-grid {
+      display: grid;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (min-width: 768px) {
+      .about-grid {
+        grid-template-columns: 1.1fr 1fr;
+        gap: 64px;
+        align-items: center;
+      }
+    }
+    .about-headline {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.35;
+      margin: 0 0 24px;
+    }
+    .about-headline em {
+      font-style: normal;
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 1px;
+    }
+    .about-body {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 0 0 32px;
+    }
+    .about-right {}
+    .about-sub-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 0 0 14px;
+    }
+    .tools-wrap { margin-bottom: 32px; }
+    .tools-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tool-tag {
+      padding: 7px 15px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 500;
+      background: var(--surface);
+      color: var(--text);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .tool-tag:hover { border-color: var(--text); background: var(--text); color: #fff; }
+    .specialty-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .specialty-item {
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .specialty-item .s-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .specialty-item .s-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─── PROJECTS ─── */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 36px;
+    }
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--text);
+      color: #fff;
+      border-color: var(--text);
+    }
+
+    /* 그리드: 3열 기반, 와이드 카드는 2열 점유 */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    @media (min-width: 640px) {
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .projects-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+      .project-card--wide { grid-column: span 2; }
+    }
+
+    /* 카드 자체: 이미지만, border 없음 */
+    .project-card {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      background: #111;
+      display: block;
+    }
+    .project-card[data-hidden="true"] { display: none; }
+
+    /* 썸네일 = 카드 전체 */
+    .project-thumb {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+    }
+    .project-card--wide .project-thumb {
+      aspect-ratio: 16 / 9;
+    }
+    .project-card--tall .project-thumb {
+      aspect-ratio: 3 / 4;
+    }
+
+    /* 배경 비주얼 (이미지 또는 그라디언트) */
+    .project-visual {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.32, 1);
+    }
+    /* 비디오가 있을 때 */
+    .project-video {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.65s cubic-bezier(0.22, 1, 0.32, 1);
+      transform: scale(1.04);
+    }
+    .project-card:hover .project-video {
+      opacity: 1;
+    }
+    .project-card:hover .project-visual,
+    .project-card:hover .project-video {
+      transform: scale(1.05);
+    }
+
+    /* hover 오버레이: 하단 그라디언트 */
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.78) 0%,
+        rgba(0, 0, 0, 0.2) 40%,
+        transparent 70%
+      );
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .project-card:hover .project-overlay { opacity: 1; }
+
+    /* 프로젝트 정보: hover 시 슬라이드업 */
+    .project-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 20px 22px 22px;
+      transform: translateY(10px);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.32, 1),
+                  opacity 0.35s ease;
+      z-index: 2;
+    }
+    .project-card:hover .project-info {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .project-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 6px;
+    }
+    .project-title {
+      font-size: clamp(1rem, 1.4vw, 1.2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin: 0;
+      line-height: 1.25;
+    }
+
+    /* ─── CONTACT ─── */
+    .contact-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contact-email {
+      display: inline-block;
+      font-size: clamp(1.25rem, 2vw, 1.6rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 2px;
+      margin: 24px 0 32px;
+      transition: color 0.2s;
+    }
+    .contact-email:hover { color: var(--accent); }
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--surface);
+      transition: all 0.2s;
+    }
+    .contact-link:hover {
+      border-color: var(--text);
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ─── FOOTER ─── */
+    .site-footer {
+      background: var(--dark);
+      color: #6a6a6a;
+      padding: 40px 0 28px;
+      font-size: 13px;
+    }
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .footer-logo { color: #fff; font-weight: 700; font-size: 1rem; letter-spacing: -0.02em; }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-links a { color: #6a6a6a; transition: color 0.2s; }
+    .footer-links a:hover { color: #fff; }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ─── 1. CUSTOM CURSOR (pointer device only) ─── */
+    @media (pointer: fine) {
+      *, *::before, *::after { cursor: none !important; }
+      .cursor-dot {
+        position: fixed;
+        top: 0; left: 0;
+        width: 6px; height: 6px;
+        background: #fff;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 99999;
+        transform: translate(-50%, -50%);
+        transition: width .2s, height .2s, background .2s, opacity .2s;
+        mix-blend-mode: difference;
+      }
+      .cursor-ring {
+        position: fixed;
+        top: 0; left: 0;
+        width: 38px; height: 38px;
+        border: 1.5px solid rgba(0,0,0,0.35);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 99998;
+        transform: translate(-50%, -50%);
+        display: flex; align-items: center; justify-content: center;
+        transition:
+          width .45s cubic-bezier(0.22,1,0.32,1),
+          height .45s cubic-bezier(0.22,1,0.32,1),
+          border-color .3s, background .3s;
+      }
+      /* on hero (dark bg) — ring goes white */
+      body.cursor-on-dark .cursor-ring {
+        border-color: rgba(255,255,255,0.45);
+      }
+      /* hover over links/buttons */
+      body.cursor-link .cursor-dot { background: #fff; }
+      body.cursor-link .cursor-ring { width: 52px; height: 52px; border-color: rgba(255,255,255,0.9); }
+    }
+
+    /* ─── 2. MARQUEE (Nike SNKRS offline 스타일 — About ↔ Work) ─── */
+    .marquee {
+      background: var(--dark);
+      color: #fff;
+      padding: 14px 0;
+      overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .marquee__track {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      width: max-content;
+      white-space: nowrap;
+      animation: marquee 30s linear infinite;
+      font-family: "Urbanist", "Pretendard", system-ui, sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      font-stretch: 125%;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      color: #fff;
+    }
+    .marquee:hover .marquee__track {
+      animation-play-state: paused;
+    }
+    .marquee__track > span:not(.marquee-star) {
+      flex-shrink: 0;
+    }
+    .marquee-star {
+      color: #fa3152;
+      flex-shrink: 0;
+      font-weight: 400;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @media (max-width: 1100px) {
+      .marquee__track {
+        font-size: 24px;
+        gap: 32px;
+      }
+    }
+    @media (max-width: 768px) {
+      .marquee__track {
+        font-size: 20px;
+        gap: 24px;
+      }
+    }
+
+    /* ─── HOVER LABEL (cursor follower, desktop only) ─── */
+    .hover-label {
+      position: fixed;
+      pointer-events: none;
+      z-index: 99990;
+      padding: 7px 16px;
+      background: #111;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      border-radius: 3px;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateX(6px);
+      transition: opacity 0.18s ease, transform 0.22s ease;
+      top: 0; left: 0;
+    }
+    .hover-label.is-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Caption visible on touch devices (no cursor) */
+    .project-caption {
+      padding: 10px 4px 4px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    @media (pointer: fine) {
+      .project-caption { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── CUSTOM CURSOR ── -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <!-- ── HOVER LABEL ── -->
+  <div class="hover-label" id="hover-label"></div>
+
+  <!-- ── HEADER ── -->
+  <header class="site-header" id="site-header">
+    <div class="header-shell">
+      <div class="header-inner">
+        <nav class="nav-cluster nav-cluster--left" aria-label="Primary">
+          <a class="nav-link-flat" href="#work">Work</a>
+          <a class="nav-link-flat" href="#about">About</a>
+        </nav>
+
+        <a class="logo logo--brand" href="#">MinZ</a>
+
+        <div class="nav-cluster nav-cluster--right">
+          <a class="btn btn-primary btn--header-cta" href="#contact">Contact</a>
+          <button type="button" class="nav-burger" id="nav-burger"
+            aria-controls="mobile-drawer" aria-expanded="false" aria-label="메뉴 열기">
+            <span class="nav-burger__grid" aria-hidden="true">
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── MOBILE DRAWER ── -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <nav aria-label="모바일 메뉴">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+
+  <main>
+
+    <!-- ── HERO ── -->
+    <section class="hero">
+      <div class="hero-backplate" aria-hidden="true">
+        <div class="hero-visual" style="
+          background: linear-gradient(145deg, #0a0a0a 0%, #161616 50%, #0c0c0c 100%);
+        "></div>
+        <div class="hero-gradient"></div>
+      </div>
+
+      <div class="container hero-foreground">
+        <p class="hero-kicker">Brand &amp; Graphic Designer · Incheon, KR</p>
+        <h1 id="hero-title">Unboxed<br>Creativity</h1>
+        <p class="hero-lead">브랜드의 본질을 모든 접점에서 일관되게 전달하는<br>시각 언어를 만듭니다.</p>
+        <div class="trust-row">
+          <div class="trust-card">
+            <strong>10+ Years</strong>
+            <span>Brand Design Experience</span>
+          </div>
+          <div class="trust-card">
+            <strong>Branding · BX</strong>
+            <span>전문 분야</span>
+          </div>
+          <div class="trust-card">
+            <strong>AI + Design</strong>
+            <span>생성형 AI 활용 디자인</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ABOUT ── -->
+    <section class="section section-alt" id="about">
+      <div class="container">
+        <div class="about-grid">
+
+          <div class="about-left reveal">
+            <p class="section-label">About</p>
+            <h2 class="about-headline">
+              브랜드를 하나의<br>
+              <em>'언어'</em>로 만드는 디자이너
+            </h2>
+            <p class="about-body">
+              시각적 통일성을 기반으로 브랜드 에셋과 가이드라인을 구축해왔습니다.
+              IMC 캠페인, SNS, OOH까지 다양한 채널에서 브랜드 메시지를 가장 효과적으로 전달할 수 있는 방식을 고민합니다.
+              <br><br>
+              브랜드 가치가 비즈니스 성과로 이어지는 과정을 설계하는 일이라 생각합니다.
+            </p>
+          </div>
+
+          <div class="about-right reveal reveal-delay-2">
+            <div class="tools-wrap">
+              <p class="about-sub-label">Tools</p>
+              <div class="tools-grid">
+                <span class="tool-tag">Adobe Creative Suite</span>
+                <span class="tool-tag">Figma</span>
+                <span class="tool-tag">Cinema 4D</span>
+                <span class="tool-tag">Midjourney</span>
+                <span class="tool-tag">Runway</span>
+                <span class="tool-tag">Klingai</span>
+              </div>
+            </div>
+            <p class="about-sub-label">Specialty</p>
+            <div class="specialty-grid">
+              <div class="specialty-item">
+                <div class="s-title">Brand Design</div>
+                <div class="s-desc">브랜드 에셋 · 가이드라인 · 리브랜딩</div>
+              </div>
+              <div class="specialty-item">
+                <div class="s-title">Marketing Design</div>
+                <div class="s-desc">IMC 캠페인 · SNS · OOH</div>
+              </div>
+              <div class="specialty-item">
+                <div class="s-title">3D Visual</div>
+                <div class="s-desc">Cinema 4D · 3D 에셋 라이브러리</div>
+              </div>
+              <div class="specialty-item">
+                <div class="s-title">AI-assisted</div>
+                <div class="s-desc">생성형 AI 활용 콘텐츠 제작</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MARQUEE (About ↔ Work, Nike SNKRS 스타일) ── -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Branding</span><span class="marquee-star">✱</span>
+        <span>BX Design</span><span class="marquee-star">✱</span>
+        <span>3D Visual</span><span class="marquee-star">✱</span>
+        <span>AI Contents</span><span class="marquee-star">✱</span>
+        <span>Marketing</span><span class="marquee-star">✱</span>
+        <span>Visual Identity</span><span class="marquee-star">✱</span>
+        <span>Brand System</span><span class="marquee-star">✱</span>
+        <span>Cinema 4D</span><span class="marquee-star">✱</span>
+        <span>Midjourney</span><span class="marquee-star">✱</span>
+        <span>Figma</span><span class="marquee-star">✱</span>
+        <span>Branding</span><span class="marquee-star">✱</span>
+        <span>BX Design</span><span class="marquee-star">✱</span>
+        <span>3D Visual</span><span class="marquee-star">✱</span>
+        <span>AI Contents</span><span class="marquee-star">✱</span>
+        <span>Marketing</span><span class="marquee-star">✱</span>
+        <span>Visual Identity</span><span class="marquee-star">✱</span>
+        <span>Brand System</span><span class="marquee-star">✱</span>
+        <span>Cinema 4D</span><span class="marquee-star">✱</span>
+        <span>Midjourney</span><span class="marquee-star">✱</span>
+        <span>Figma</span><span class="marquee-star">✱</span>
+      </div>
+    </div>
+
+    <!-- ── WORK / PROJECTS ── -->
+    <section class="section" id="work">
+      <div class="container">
+        <p class="section-label reveal">Work</p>
+        <h2 class="section-title reveal reveal-delay-1">Selected Projects</h2>
+
+        <!-- Filter -->
+        <div class="filter-bar reveal reveal-delay-2">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="branding">Branding</button>
+          <button class="filter-btn" data-filter="marketing">Marketing</button>
+          <button class="filter-btn" data-filter="bx">BX Design</button>
+          <button class="filter-btn" data-filter="ai">AI Contents</button>
+        </div>
+
+        <div class="projects-grid">
+
+          <div class="project-card project-card--wide" data-categories="branding bx" data-title="화해 — Rebranding &amp; BX">
+            <div class="project-thumb">
+              <div class="project-visual" style="background: #e8e8e8;"></div>
+              <div class="project-overlay"></div>
+            </div>
+            <div class="project-caption">뷰티플랫폼 화해 — Rebranding &amp; BX</div>
+          </div>
+
+          <div class="project-card" data-categories="marketing branding" data-title="세탁특공대 — Marketing &amp; Brand">
+            <div class="project-thumb">
+              <div class="project-visual" style="background: #e8e8e8;"></div>
+              <div class="project-overlay"></div>
+            </div>
+            <div class="project-caption">세탁특공대 — Marketing &amp; Brand</div>
+          </div>
+
+          <div class="project-card" data-categories="marketing ai" data-title="AI Campaign Visual">
+            <div class="project-thumb">
+              <div class="project-visual" style="background: #e8e8e8;"></div>
+              <div class="project-overlay"></div>
+            </div>
+            <div class="project-caption">AI-assisted Campaign Visual</div>
+          </div>
+
+          <div class="project-card" data-categories="ai" data-title="AI Motion &amp; Video">
+            <div class="project-thumb">
+              <div class="project-visual" style="background: #e8e8e8;"></div>
+              <div class="project-overlay"></div>
+            </div>
+            <div class="project-caption">AI Motion &amp; Video Generation</div>
+          </div>
+
+          <div class="project-card" data-categories="branding ai" data-title="AI Brand Imagery">
+            <div class="project-thumb">
+              <div class="project-visual" style="background: #e8e8e8;"></div>
+              <div class="project-overlay"></div>
+            </div>
+            <div class="project-caption">AI Brand Imagery</div>
+          </div>
+
+          <div class="project-card" data-categories="marketing" data-title="원더팀 — IMC &amp; Brand">
+            <div class="project-thumb">
+              <div class="project-visual" style="background: #e8e8e8;"></div>
+              <div class="project-overlay"></div>
+            </div>
+            <div class="project-caption">원더팀 — IMC &amp; Brand Contents</div>
+          </div>
+
+          <div class="project-card" data-categories="marketing" data-title="FSN — Digital Design">
+            <div class="project-thumb">
+              <div class="project-visual" style="background: #e8e8e8;"></div>
+              <div class="project-overlay"></div>
+            </div>
+            <div class="project-caption">FSN 인버스 — Digital Design</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTACT ── -->
+    <section class="section section-alt" id="contact">
+      <div class="container">
+        <div class="contact-inner reveal">
+          <p class="section-label">Contact</p>
+          <h2 class="section-title">Let's work together</h2>
+          <p class="section-sub" style="margin: 0 auto 8px;">
+            브랜딩, 마케팅 디자인, AI 활용 콘텐츠 제작 등<br>함께 만들어갈 프로젝트가 있으시면 연락주세요.
+          </p>
+          <a class="contact-email" href="mailto:minji3416@gmail.com">minji3416@gmail.com</a>
+          <div class="contact-links">
+            <a class="contact-link" href="mailto:minji3416@gmail.com">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+              Email
+            </a>
+            <a class="contact-link" href="#" target="_blank" rel="noopener">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+            </a>
+            <a class="contact-link" href="#" target="_blank" rel="noopener">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              Instagram
+            </a>
+            <a class="contact-link" href="#" target="_blank" rel="noopener">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.49.5.09.682-.218.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">MinZ</span>
+      <span>© 2026 Kim Minji. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── NAV SCROLL PILL ── */
+    (function () {
+      var header = document.getElementById("site-header");
+      var burger = document.getElementById("nav-burger");
+      var drawer = document.getElementById("mobile-drawer");
+      var threshold = 40;
+      function isDesktopNav() { return window.matchMedia("(min-width:1024px)").matches; }
+      function onScroll() {
+        if (!header) return;
+        if (!isDesktopNav()) { header.classList.remove("is-scrolled"); return; }
+        header.classList.toggle("is-scrolled", window.scrollY > threshold);
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+      onScroll();
+      if (burger && drawer) {
+        burger.addEventListener("click", function () {
+          var open = !document.body.classList.contains("nav-open");
+          document.body.classList.toggle("nav-open", open);
+          burger.setAttribute("aria-expanded", open ? "true" : "false");
+          burger.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
+          document.body.style.overflow = open ? "hidden" : "";
+        });
+        drawer.querySelectorAll("a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            document.body.classList.remove("nav-open");
+            document.body.style.overflow = "";
+            burger.setAttribute("aria-expanded", "false");
+            burger.setAttribute("aria-label", "메뉴 열기");
+          });
+        });
+      }
+    })();
+
+    /* ── CUSTOM CURSOR ── */
+    (function () {
+      if (!window.matchMedia("(pointer:fine)").matches) return;
+      var dot = document.getElementById("cursor-dot");
+      var ring = document.getElementById("cursor-ring");
+      if (!dot || !ring) return;
+      var mx = -200, my = -200, rx = -200, ry = -200;
+      var raf;
+      document.addEventListener("mousemove", function (e) {
+        mx = e.clientX; my = e.clientY;
+        if (!raf) raf = requestAnimationFrame(tick);
+      });
+      function tick() {
+        raf = null;
+        dot.style.transform = "translate(calc(" + mx + "px - 50%), calc(" + my + "px - 50%))";
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.transform = "translate(calc(" + rx + "px - 50%), calc(" + ry + "px - 50%))";
+        raf = requestAnimationFrame(tick);
+      }
+      raf = requestAnimationFrame(tick);
+      /* state: link (anchors & buttons) */
+      document.querySelectorAll("a, button").forEach(function (el) {
+        el.addEventListener("mouseenter", function () { document.body.classList.add("cursor-link"); });
+        el.addEventListener("mouseleave", function () { document.body.classList.remove("cursor-link"); });
+      });
+      document.addEventListener("mouseleave", function () {
+        dot.style.opacity = "0"; ring.style.opacity = "0";
+      });
+      document.addEventListener("mouseenter", function () {
+        dot.style.opacity = ""; ring.style.opacity = "";
+      });
+    })();
+
+    /* ── HOVER LABEL (project name follows cursor) ── */
+    (function () {
+      if (!window.matchMedia("(pointer:fine)").matches) return;
+      var label = document.getElementById("hover-label");
+      if (!label) return;
+      var lx = 0, ly = 0;
+      document.addEventListener("mousemove", function (e) {
+        lx = e.clientX; ly = e.clientY;
+        if (label.classList.contains("is-visible")) {
+          label.style.left = (lx + 22) + "px";
+          label.style.top  = (ly - 10) + "px";
+        }
+      });
+      document.querySelectorAll(".project-card").forEach(function (card) {
+        var title = card.dataset.title || "";
+        card.addEventListener("mouseenter", function (e) {
+          label.textContent = title;
+          label.style.left = (e.clientX + 22) + "px";
+          label.style.top  = (e.clientY - 10) + "px";
+          label.classList.add("is-visible");
+        });
+        card.addEventListener("mouseleave", function () {
+          label.classList.remove("is-visible");
+        });
+      });
+    })();
+
+    /* ── PROJECT FILTER ── */
+    (function () {
+      var filterBtns = document.querySelectorAll(".filter-btn");
+      var cards = document.querySelectorAll(".project-card");
+      filterBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var filter = btn.dataset.filter;
+          filterBtns.forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          cards.forEach(function (card) {
+            if (filter === "all") {
+              card.removeAttribute("data-hidden");
+            } else {
+              var cats = (card.dataset.categories || "").split(" ");
+              card[cats.indexOf(filter) > -1 ? "removeAttribute" : "setAttribute"]("data-hidden", "true");
+            }
+          });
+        });
+      });
+    })();
+
+    /* ── VIDEO HOVER PLAY ── */
+    (function () {
+      document.querySelectorAll(".project-card").forEach(function (card) {
+        var video = card.querySelector("video");
+        if (!video) return;
+        card.addEventListener("mouseenter", function () { video.currentTime = 0; video.play().catch(function(){}); });
+        card.addEventListener("mouseleave", function () { video.pause(); });
+      });
+    })();
+
+    /* ── SCROLL REVEAL ── */
+    (function () {
+      var els = document.querySelectorAll(".reveal");
+      if (!("IntersectionObserver" in window)) {
+        els.forEach(function (el) { el.classList.add("visible"); });
+        return;
+      }
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+      els.forEach(function (el) { observer.observe(el); });
+    })();
+  </script>
+</body>
+</html>
